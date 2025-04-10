@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Shop_Product {% endblock %}
+{% block body %}
+
+<section class="main-container col1-layout">
+    <div class="main container">
+      <div class="row">
+        <div class="col-sm-12 col-xs-12">
+          <div class="product-area">
+            <div class="title-tab-product-category">
+              <div class="text-center">
+                <ul class="nav jtv-heading-style" role="tablist">
+                  <li role="presentation" class="active"><a href="#cart" aria-controls="cart" role="tab" data-toggle="tab">1 Shopping cart</a></li>
+                  <li role="presentation" class=""><a href="#complete-order" aria-controls="complete-order" role="tab" data-toggle="tab">3 Complete Order</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="content-tab-product-category"> 
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="cart"> 
+                  <!-- cart are start-->
+                  <div class="cart-page-area">
+                    <form method="post" action="#">
+                      <div class="table-responsive">
+                        <table class="shop-cart-table">
+                          <thead>
+                            <tr>
+                              <th class="product-thumbnail ">Image</th>
+                              <th class="product-name ">Product Name</th>
+                              <th class="product-price ">Unit Price</th>
+                              <th class="product-quantity">Quantity</th>
+                              <th class="product-subtotal ">Total</th>
+                              <th class="product-remove">Remove</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% if messages %}
+                            <ul class="messages">
+                              {% for message in messages %}
+                              <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                              {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% for i in cart %}
+                            <tr class="cart_item">
+                              <td class="item-img"><a href="#"><img src="{{i.product.image.url}}" alt="Product tilte is here "> </a></td>
+                              <td class="item-title"><a href="#">{{i.product.title}} </a></td>
+                              <td class="item-price"> {{i.product.current_price}} </td>
+                              <td class="item-qty"><div class="cart-quantity">
+                                  <div class="product-qty">
+                                    <div class="cart-quantity">
+                                      <div class="cart-plus-minus">
+                                        <div class="dec qtybutton"><a href="{% url 'decries' i.product.id %}">-</a></div>
+                                        <input value="{{i.quantity}}" name="qtybutton" class="cart-plus-minus-box" type="text">
+                                        <div class="inc qtybutton"><a href="{% url 'increase' i.product.id %}">+</a></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div></td>
+                              <td class="total-price"><strong> {{i.total_price}}</strong></td>
+                              <td class="remove-item"><a href="{% url 'remove_cart' i.id %}"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="cart-bottom-area">
+                        <div class="row">
+                          <div class="col-md-8 col-sm-7 col-xs-12">
+                            <div class="update-coupne-area">
+                              <div class="update-continue-btn text-right">
+                                <button class="button btn-continue" title="Continue Shopping" type="button"><span>Continue Shopping</span></button>
+                                <button class="button btn-empty" title="Clear Cart" value="empty_cart" name="update_cart_action" type="submit"><span>Clear Cart</span></button>
+                                <button class="button btn-update" title="Update Cart" value="update_qty" name="update_cart_action" type="submit"><span>Update Cart</span></button>
+                              </div>
+                              <div class="coupn-area">
+                                <div class="discount">
+                                  <h3>Discount Codes</h3>
+                                  <label for="coupon_code">Enter your coupon code if you have one.</label>
+                                  <input type="hidden" value="0" id="remove-coupone" name="remove">
+                                  <input type="text" value="" name="coupon_code" id="coupon_code" class="input-text fullwidth">
+                                  <button value="Apply Coupon" onclick="discountForm.submit(false)" class="button coupon " title="Apply Coupon" type="button"><span>Apply Coupon</span></button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4 col-sm-5 col-xs-12">
+                            <div class="cart-total-area">
+                              <div class="catagory-title cat-tit-5 text-right">
+                                <h3>Cart Totals</h3>
+                              </div>
+                              <div class="sub-shipping">
+                                <p>Subtotal <span>{{total}}TK</span></p>
+                                <p>Shipping <span>75 TK</span></p>
+                              </div>
+                              <div class="shipping-method text-right">
+                                <div class="shipp">
+                                  <input type="radio" name="ship" id="pay-toggle1">
+                                  <label for="pay-toggle1">Flat Rate</label>
+                                </div>
+                                <div class="shipp">
+                                  <input type="radio" name="ship" id="pay-toggle3">
+                                  <label for="pay-toggle3">Direct Bank Transfer</label>
+                                </div>
+                                <p><a href="#">Calculate Shipping</a></p>
+                              </div>
+                              <div class="process-cart-total">
+                                <p>Total <span>{{ship_total}}</span></p>
+                              </div>
+                              <div class="process-checkout-btn text-right">
+                                <button class="button btn-proceed-checkout" title="Proceed to Checkout" type="button"><span>Proceed to Checkout</span></button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- cart are end--> 
+                </div>
+                <div role="tabpanel" class="tab-pane  fade in " id="checkout"> 
+                  
+                </div>
+                <div role="tabpanel" class="tab-pane  fade in" id="complete-order">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <div class="checkout-payment-area">
+                        <div class="checkout-total">
+                          <h3>Your order</h3>
+                          <form action="#" method="post">
+                            <div class="table-responsive">
+                              <table class="checkout-area table">
+                                <thead>
+                                  <tr class="cart_item check-heading">
+                                    <td class="ctg-type"> Product</td>
+                                    <td class="cgt-des"> Total</td>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for i in cart  %}
+                                  <tr class="cart_item check-item prd-name">
+                                    <td class="ctg-type"> {{i.product.title}} x <span>{{i.quantity}}</span></td>
+                                    <td class="cgt-des"> {{i.total_price}}</td>
+                                  </tr>
+                                {% endfor %}
+                                  <tr class="cart_item">
+                                    <td class="ctg-type"> Subtotal</td>
+                                    <td class="cgt-des">{{total}}</td>
+                                  </tr>
+                                  <tr class="cart_item">
+                                    <td class="ctg-type">Shipping</td>
+                                    <td class="cgt-des ship-opt"><div class="shipp">
+                                        <input type="radio" id="pay-toggle" name="ship">
+                                        <label for="pay-toggle">Flat Rate: <span>$75</span></label>
+                                      </div>
+                                      <div class="shipp">
+                                        <input type="radio" id="pay-toggle2" name="ship">
+                                        <label for="pay-toggle2">Free Shipping</label>
+                                      </div></td>
+                                  </tr>
+                                  <tr class="cart_item">
+                                    <td class="ctg-type crt-total"> Total</td>
+                                    <td class="cgt-des prc-total"> {{ship_total}} </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="payment-section">
+                          <div class="pay-toggle">
+                            <form action="#">
+                              <div class="pay-type-total">
+                                
+                              </div>
+                              <form method="post">
+                                {% csrf_token %}
+                              <div class="input-box"> <a class="btn-def btn2" href="{% url 'payment' %}">Place order</a> </div>
+                              
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

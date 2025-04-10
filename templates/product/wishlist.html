@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Search {% endblock %}
+{% block body %}
+
+<div class="main-container col1-layout">
+    <div class="container">
+        <div class="row">
+            <section class="col-sm-12 col-xs-12">
+                <div class="cart-page-area">
+                    <h2>My Wishlist</h2>
+                    <form method="post" action="#">
+                        {% csrf_token %}
+                        <div class="table-responsive">
+                            <table class="shop-cart-table">
+                                <thead>
+                                    <tr>
+                                        <th class="product-thumbnail">Image</th>
+                                        <th class="product-name">Product Name</th>
+                                        <th class="product-price">Unit Price</th>
+                                        <th class="product-subtotal">Stock</th>
+                                        <th class="product-quantity">Add Item</th>
+                                        <th class="product-remove">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in Products %}
+                                        <tr class="cart_item">
+                                            <td class="item-img"><a href="#"><img alt="Product title" src="{{i.image.url}}"></a></td>
+                                            <td class="item-title"><a href="#">{{ i.title }}</a></td>
+                                            <td class="item-price">{{ i.current_price }}</td>
+                                            <td class="item-qty">In Stock</td>
+                                            <td class="total-price">
+                                                <a class="btn-def btn2" href="{% url 'add_to_cart' i.id %}">Add To Cart</a>
+                                            </td>
+                                            <td class="remove-item">
+                                                <a href="{% url 'remove_from_wishlist' i.id %}">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript --> 
+<script src="{% static 'js/jquery.min.js' %}"></script> 
+<script src="{% static 'js/bootstrap.min.js' %}"></script> 
+<script src="{% static 'js/revslider.js' %}"></script> 
+<script src="{% static 'js/main.js' %}"></script> 
+<script src="{% static 'js/owl.carousel.min.js' %}"></script> 
+<script src="{% static 'js/mob-menu.js' %}"></script>
+
+{% endblock %}

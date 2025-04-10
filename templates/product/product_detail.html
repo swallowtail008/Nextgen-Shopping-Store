@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Product Details{% endblock %}
+
+{% block body %}
+    <body class="product-page">
+        <div id="page"> 
+        
+          <!-- Main Container -->
+          <section class="main-container col1-layout">
+            <div class="container">
+              <div class="row">
+                <div class="product-view">
+                  <div class="product-essential">
+                    <form method="post" action="#">
+                        {% csrf_token %}
+                        {% for i in Products %}
+                          <div class="product-img-box col-lg-4 col-sm-5 col-xs-12">
+                              
+                                <div class="product-image">
+                                  <div class="product-full">
+                                    <div class="new-label new-top-left"> New </div>
+                                    <img id="product-zoom" src="{{i.image.url}}"  alt="product-image"/> 
+                                  </div>
+                                </div>
+                          
+                              
+                          </div>
+            
+                          <!-- Product Info -->
+                          <div class="product-shop col-lg-8 col-sm-7 col-xs-12">
+                            <div class="product-name">
+                              <h1>{{ i.title }}</h1>
+                            </div>
+                            <div class="rating"> 
+                              <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> 
+                            </div>
+                            <div class="price-block">
+                              <div class="price-box">
+                                <p class="special-price"> <span class="price-label">Special Price</span><span class="price">{{ i.current_price }} </span></p>
+                                <p class="old-price"> <span class="price-label">Regular Price:</span><span class="price">{{ i.prev_price }} </span></p>
+                                <p class="availability in-stock"><span>In Stock</span></p>
+                              </div>
+                            </div>
+                            <div class="short-description">
+                              <h2>Quick Overview</h2>
+                              <p>{{ i.description }}</p>
+                            </div>
+                            <div class="add-to-box">
+                              <div class="add-to-cart">
+                                <div class="pull-left">
+                                  <div class="custom pull-left">
+                                    <label>Quantity:</label>
+                                    <button onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) && qty > 0 ) result.value--;return false;" class="reduced items-count" type="button"><i class="fa fa-minus">&nbsp;</i></button>
+                                    <input type="text" class="input-text qty" title="Qty" value="1" maxlength="12" id="qty" name="qty">
+                                    <button onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;" class="increase items-count" type="button"><i class="fa fa-plus">&nbsp;</i></button>
+                                  </div>
+                                </div>
+                                  <button onClick="productAddToCartForm.submit(this)" class="button btn-cart" title="Add to Cart" type="button"><i class="fa fa-shopping-cart"></i><a  href="{% url 'add_to_cart' i.id %}"> Add to Cart</a></button>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        
+        </div>
+    </body>
+    
+    
+      
+    
+    <!-- JavaScript --> 
+    <script src="js/jquery.min.js"></script> 
+    <script src="js/bootstrap.min.js"></script> 
+    <script src="js/main.js"></script> 
+    <script src="js/jquery.flexslider.js"></script> 
+    <script src="js/owl.carousel.min.js"></script> 
+    <script src="js/mob-menu.js"></script> 
+    <script src="js/cloud-zoom.js"></script>
+    </body>
+    </html>
+{% endblock %}

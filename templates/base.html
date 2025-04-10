@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Fabulous is a creative, clean, fully responsive, powerful and multipurpose HTML Template with latest website trends. Perfect to all type of fashion stores.">
+<meta name="keywords" content="HTML,CSS,womens clothes,fashion,mens fashion,fashion show,fashion week">
+<meta name="author" content="JTV">
+<title>{% block title %}Base{% endblock %}</title>
+
+<!-- Favicons Icon -->
+<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" />
+
+<!-- Mobile Specific -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- CSS Style -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" media="all">
+</head>
+
+<body class="cms-index-index cms-home-page">
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-sm-3 col-xs-12">
+            <div class="logo"><a title="ecommerce Template" href="{% url 'home' %}"><img alt="ecommerce Template" src="{% static 'images/logo.png' %}"></a></div>
+            <div class="nav-icon">
+              <div class="mega-container visible-lg visible-md visible-sm">
+                <div class="navleft-container">
+                  <div class="mega-menu-title">
+                    <h3><i class="fa fa-navicon"></i>Categories</h3>
+                  </div>
+                  <div class="mega-menu-category">
+                    <ul class="nav">
+                      {% for cata in menu_category %}
+                      <li><a href="#">{{cata.title}}</a>
+                        <div class="wrap-popup">
+                          <div class="popup">
+                            <div class="row">
+                              {% for subcata in cata.subcategory_set.all %}
+                              <div class="col-md-4 col-sm-6">
+                                <h3><a href="shop-grid-sidebar.html">{{subcata.title}}</a></h3>
+                                <ul class="nav">
+                                  {% for sub_sub_cata in subcata.super_subcategory_set.all %}
+                                  <li><a href="{% url 'super_sub_prod' sub_sub_cata.id %}">{{sub_sub_cata.title}}</a></li>
+                                  {% endfor %}
+                                </ul>
+                                <br>
+                              </div>
+                              {% endfor %}
+                              <div class="col-md-4 has-sep hidden-sm">
+                                <div class="custom-menu-right">
+                                  <div class="box-banner media">
+                                    <div class="add-right"><a href="#"><img src="{% static 'images/jtv-menu-banner1.jpg' %}" class="img-responsive" alt="New Arrive"></a></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <br>
+                            <a href="#" class="ads"><img src="{% static 'images/jtv-menu-banner4.jpg' %}" alt="Mega Sale" class="img-responsive"></a> </div>
+                        </div>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-9 col-sm-9 col-xs-12 jtv-rhs-header">
+            <div class="jtv-mob-toggle-wrap">
+              <div class="mm-toggle"><i class="fa fa-reorder"></i><span class="mm-label">Menu</span></div>
+            </div>
+            <div class="jtv-header-box">
+              <div class="search_cart_block">
+                <div class="search-box hidden-xs">
+                  <form action="/search/" method="get" class="search-form">
+                    <input type="text" placeholder="Search" name="query" id="query" class="search-input">
+                    <button type="submit" title="Search" class="search-btn-bg" id="submit-button"><span class="hidden-sm">Search</span><i class="fa fa-search hidden-xs hidden-lg hidden-md"></i></button>
+                  </form>
+                </div>
+                
+                <div class="right_menu">
+                  <div class="menu_top">
+                    <div class="top-cart-contain pull-right">
+                      <div class="mini-cart">
+                        <div class="basket"><a class="basket-icon" href="#"><i class="fa fa-shopping-basket"></i> Shopping Cart <span>{{len_cart}}</span></a>
+                          <div class="top-cart-content">
+                            <div class="block-subtitle">
+                              <div class="top-subtotal">{{len_cart}} items, <span class="price">$399.49</span></div>
+                            </div>
+                            {% for i in cart %}
+                            <ul class="mini-products-list" id="cart-sidebar">
+                              <li class="item">
+                                <div class="item-inner"><a class="product-image" title="product tilte is here" href="product-detail.html"><img alt="product tilte is here" src="{{i.product.image.url}}"></a>
+                                  <div class="product-details">
+                                    <div class="access"><a class="btn-remove1" title="Remove This Item" href="{% url 'remove_cart' i.id %}">Remove</a>  </div>
+                                    <p class="product-name"><a href="product-detail.html">{{i.product.title}}</a></p>
+                                    <strong>{{i.quantity}}</strong> x <span class="price">{{i.product.current_price}}</span></div>
+                                </div>
+                              </li>
+
+                            </ul>
+                              {% endfor %}
+                            <div class="actions"> <a href="{% url 'cart_page'%}" class="view-cart"><span>View Cart</span></a>
+                              <button onclick="window.location.href='checkout.html'" class="btn-checkout" title="Checkout" type="button"><span>Checkout</span></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="language-box hidden-xs">
+                    <select class="selectpicker" data-width="fit">
+                      <option>English</option>
+                      <option>Francais</option>
+                      <option>German</option>
+                      <option>Español</option>
+                    </select>
+                  </div>
+                  <div class="currency-box hidden-xs">
+                    <form class="form-inline">
+                      <div class="input-group">
+                        <div class="currency-addon">
+                          <select class="currency-selector">
+                            <option data-symbol="$">USD</option>
+                            <option data-symbol="€">EUR</option>
+                            <option data-symbol="£">GBP</option>
+                            <option data-symbol="¥">JPY</option>
+                            <option data-symbol="$">CAD</option>
+                            <option data-symbol="$">AUD</option>
+                          </select>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="top_section hidden-xs">
+                <div class="toplinks">
+                  <div class="site-dir hidden-xs"> <a class="hidden-sm" href="#"><i class="fa fa-phone"></i> <strong>Hotline:</strong> +1 123 456 7890</a> <a href="mailto:support@example.com"><i class="fa fa-envelope"></i> support@example.com</a> </div>
+                  <ul class="links">
+                    <!-- <li><a title="My Account" href="{% url 'user_desh' %}">My Account</a></li>
+                    <li><a title="My Wishlist" href="{% url 'wishlist' %}">Wishlist</a></li>
+                    <li><a title="Checkout" href="checkout.html">Checkout</a></li>
+                    <li><a title="Track Order" href="track-order.html">Track Order</a></li>  -->
+                    {% if user.is_authenticated %}
+                    <li><a title="My Account" href="{% url 'user_desh' %}">My Account</a></li>
+                    <li><a title="My Wishlist" href="{% url 'wishlist' %}">Wishlist</a></li>
+                    <!-- <li><a title="Checkout" href="checkout.html">Checkout</a></li>
+                    <li><a title="Track Order" href="track-order.html">Track Order</a></li>  -->
+                    <li><a title="Logout" href="{% url 'logout' %}">Logout</a></li>
+                    {%  else %}
+                  <li><a title="Log In" href="{% url 'login' %}">Log In</a></li>
+                  <li><a title="Registration" href="{% url 'reg' %}">Registration</a></li>
+                    {% endif %}
+                    <li><a title="Forget pass" href="{% url 'reset' %}">Forget pass</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- end header --> 
+  <!-- Revslider -->
+  {% block body %}
+
+  <h1>this is base</h1>
+  {% endblock %}
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="news-letter">
+        <div class="container">
+          <div class="heading text-center">
+           
+           </div> 
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <h4>About</h4>
+            <div class="contacts-info">
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+              <address>
+              <i class="fa fa-location-arrow"></i> <span>Company, 12/34 - West 21st Street,<br>
+              New York, USA</span>
+              </address>
+              <div class="phone-footer"><i class="fa fa-phone"></i> +1 123 456 98765</div>
+              <div class="email-footer"><i class="fa fa-envelope"></i> <a href="mailto:support@example.com">support@example.com</a> </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+            <h4>Helpful Links</h4>
+            <ul class="links">
+              <li><a href="#">Products</a></li>
+              <li><a href="#">Find a Store</a></li>
+              <li><a href="#">Features</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="sitemap.html">Site Map</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+            <h4>Shop</h4>
+            <ul class="links">
+              <li><a href="about-us.html">About Us</a></li>
+              <li><a href="faq.html">FAQs</a></li>
+              <li><a href="#">Shipping Methods</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="#">Support</a></li>
+              <li><a href="#">Retailer</a></li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-lg-3 col-md-4 col-sm-6">
+            <div class="social">
+              <h4>Follow Us</h4>
+              <ul>
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                <li><a href="#"><i class="fa fa-skype"></i></a></li>
+                <li><a href="#"><i class="fa fa-vimeo"></i></a></li>
+              </ul>
+            </div>
+            <div class="payment-accept">
+              <h4>Secure Payment</h4>
+              <div class="payment-icon"><img src="{% static 'images/paypal.png' %}" alt="paypal"> <img src="{% static 'images/visa.png' %}" alt="visa"> <img src="{% static 'images/american-exp.png' %}" alt="american express"> <img src="{% static 'images/mastercard.png' %}" alt="mastercard"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-xs-12 coppyright text-center">© 2018 Fabulous, All rights reserved.</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- JavaScript --> 
+<script src="{% static 'js/jquery.min.js' %}"></script> 
+<script src="{% static 'js/bootstrap.min.js' %}"></script> 
+<script src="{% static 'js/revslider.js' %}"></script> 
+<script src="{% static 'js/main.js' %}"></script> 
+<script src="{% static 'js/owl.carousel.min.js' %}"></script> 
+<script src="{% static 'js/mob-menu.js' %}"></script> 
+<script src="{% static 'js/countdown.js' %}"></script> 
+<script>
+jQuery(document).ready(function(){
+jQuery('#rev_slider_1').show().revolution({
+dottedOverlay: 'none',
+delay: 5000,
+startwidth: 858,
+startheight: 500,
+
+hideThumbs: 200,
+thumbWidth: 200,
+thumbHeight: 50,
+thumbAmount: 2,
+
+navigationType: 'thumb',
+navigationArrows: 'solo',
+navigationStyle: 'round',
+
+touchenabled: 'on',
+onHoverStop: 'on',
+
+swipe_velocity: 0.7,
+swipe_min_touches: 1,
+swipe_max_touches: 1,
+drag_block_vertical: false,
+
+spinner: 'spinner0',
+keyboardNavigation: 'off',
+
+navigationHAlign: 'center',
+navigationVAlign: 'bottom',
+navigationHOffset: 0,
+navigationVOffset: 20,
+
+soloArrowLeftHalign: 'left',
+soloArrowLeftValign: 'center',
+soloArrowLeftHOffset: 20,
+soloArrowLeftVOffset: 0,
+
+soloArrowRightHalign: 'right',
+soloArrowRightValign: 'center',
+soloArrowRightHOffset: 20,
+soloArrowRightVOffset: 0,
+
+shadow: 0,
+fullWidth: 'on',
+fullScreen: 'off',
+
+stopLoop: 'off',
+stopAfterLoops: -1,
+stopAtSlide: -1,
+
+shuffle: 'off',
+
+autoHeight: 'off',
+forceFullWidth: 'on',
+fullScreenAlignForce: 'off',
+minFullScreenHeight: 0,
+hideNavDelayOnMobile: 1500,
+
+hideThumbsOnMobile: 'off',
+hideBulletsOnMobile: 'off',
+hideArrowsOnMobile: 'off',
+hideThumbsUnderResolution: 0,
+
+hideSliderAtLimit: 0,
+hideCaptionAtLimit: 0,
+hideAllCaptionAtLilmit: 0,
+startWithSlide: 0,
+fullScreenOffsetContainer: ''
+});
+});
+</script> 
+<!-- Hot Deals Timer --> 
+<script>
+var dthen1 = new Date("12/25/17 11:59:00 PM");
+start = "08/04/15 03:02:11 AM";
+start_date = Date.parse(start);
+var dnow1 = new Date(start_date);
+if (CountStepper > 0)
+ddiff = new Date((dnow1) - (dthen1));
+else
+ddiff = new Date((dthen1) - (dnow1));
+gsecs1 = Math.floor(ddiff.valueOf() / 1000);
+
+var iid1 = "countbox_1";
+CountBack_slider(gsecs1, "countbox_1", 1);
+</script>
+</body>
+</html>
